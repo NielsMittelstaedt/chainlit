@@ -2,9 +2,14 @@ import { useEffect } from 'react';
 
 import { useChatInteract, useChatSession } from '@chainlit/react-client';
 
+import { IWidgetConfig } from '../types';
 import ChatBody from './body';
 
-export default function ChatWrapper() {
+interface Props {
+  config: IWidgetConfig;
+}
+
+export default function ChatWrapper({ config }: Props) {
   const { connect, session } = useChatSession();
   const { sendMessage } = useChatInteract();
   useEffect(() => {
@@ -21,5 +26,5 @@ export default function ChatWrapper() {
     window.sendChainlitMessage = sendMessage;
   }, [sendMessage]);
 
-  return <ChatBody />;
+  return <ChatBody widgetConfig={config} />;
 }

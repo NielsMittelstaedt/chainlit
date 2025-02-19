@@ -24,7 +24,13 @@ import {
 import WelcomeScreen from '@/components/WelcomeScreen';
 import ElementSideView from 'components/ElementSideView';
 
-const Chat = () => {
+import { IWidgetConfig } from '../types';
+
+interface Props {
+  widgetConfig: IWidgetConfig;
+}
+
+const Chat = ({ widgetConfig }: Props) => {
   const { config } = useConfig();
   const layoutMaxWidth = useLayoutMaxWidth();
   const setAttachments = useSetRecoilState(attachmentsState);
@@ -169,7 +175,7 @@ const Chat = () => {
             </Alert>
           </div>
         ) : null}
-        <ChatSettingsModal />
+        <ChatSettingsModal config={widgetConfig} />
         <ErrorBoundary>
           <ScrollContainer autoScrollRef={autoScrollRef}>
             <div

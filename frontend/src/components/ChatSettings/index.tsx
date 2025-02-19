@@ -19,7 +19,27 @@ import { chatSettingsOpenState } from 'state/project';
 
 import { FormInput, TFormInputValue } from './FormInput';
 
-export default function ChatSettingsModal() {
+interface IWidgetConfig {
+  chainlitServer: string;
+  jwt?: string;
+  jupyterToken?: string;
+  workspaceId?: string;
+  showCot?: boolean;
+  accessToken?: string;
+  theme?: 'light' | 'dark';
+  button?: {
+    containerId?: string;
+    imageUrl?: string;
+    className?: string;
+  };
+  customCssUrl?: string;
+}
+
+interface Props {
+  config?: IWidgetConfig;
+}
+
+export default function ChatSettingsModal({ config }: Props) {
   const { chatSettingsValue, chatSettingsInputs, chatSettingsDefaultValue } =
     useChatData();
 
@@ -35,7 +55,12 @@ export default function ChatSettingsModal() {
   // Reset form when default values change
   useEffect(() => {
     reset(chatSettingsValue);
-  }, [chatSettingsValue, reset]);
+    updateChatSettings({
+      workspaceId: config?.workspaceId ?? null,
+      jwt: config?.jwt ?? null,
+      jupyterToken: config?.jupyterToken ?? null
+    });
+  }, [chatSettingsValue, reset, updateChatSettings]);
 
   const handleClose = () => setChatSettingsOpen(false);
 

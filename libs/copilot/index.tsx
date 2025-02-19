@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { type IStep } from '@chainlit/react-client';
+import { type IStep, useChatInteract } from '@chainlit/react-client';
 
 // @ts-expect-error inline css
 import sonnercss from './sonner.css?inline';
@@ -27,6 +27,7 @@ declare global {
     unmountChainlitWidget: () => void;
     toggleChainlitCopilot: () => void;
     sendChainlitMessage: (message: IStep) => void;
+    updateChainlitSettings: (values: object) => void;
   }
 }
 
@@ -48,7 +49,7 @@ window.mountChainlitWidget = (config: IWidgetConfig) => {
       <style type="text/css">{tailwindcss.toString()}</style>
       <style type="text/css">{sonnercss.toString()}</style>
       <style type="text/css">{hljscss.toString()}</style>
-      <AppWrapper widgetConfig={config} />
+      <AppWrapper widgetConfig={config} chainlitBridge={<ChainlitBridge />} />
     </React.StrictMode>
   );
 };
@@ -60,3 +61,17 @@ window.unmountChainlitWidget = () => {
 window.sendChainlitMessage = () => {
   console.info('Copilot is not active. Please check if the widget is mounted.');
 };
+
+export function ChainlitBridge() {
+  const { updateChatSettings } = useChatInteract();
+
+  useEffect(() => {
+    window.updateChainlitSettings = updateChatSettings;
+
+    return () => {
+      (window as any).updateChainlitSettings = undefined;
+    };
+  }, [updateChatSettings]);
+
+  return null;
+}

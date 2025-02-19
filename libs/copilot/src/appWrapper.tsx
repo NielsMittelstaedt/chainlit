@@ -11,9 +11,10 @@ import App from './app';
 i18nSetupLocalization();
 interface Props {
   widgetConfig: IWidgetConfig;
+  chainlitBridge: React.ReactNode;
 }
 
-export default function AppWrapper({ widgetConfig }: Props) {
+export default function AppWrapper({ widgetConfig, chainlitBridge }: Props) {
   const apiClient = makeApiClient(widgetConfig.chainlitServer);
   const [customThemeLoaded, setCustomThemeLoaded] = useState(false);
 
@@ -67,6 +68,7 @@ export default function AppWrapper({ widgetConfig }: Props) {
   return (
     <ChainlitContext.Provider value={apiClient}>
       <RecoilRoot>
+        {chainlitBridge}
         <App widgetConfig={widgetConfig} />
       </RecoilRoot>
     </ChainlitContext.Provider>

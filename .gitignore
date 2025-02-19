@@ -1,5 +1,12 @@
 build
 dist
+bin
+lib
+lib64
+include
+share
+etc
+pyvenv.cfg
 
 *.egg-info
 

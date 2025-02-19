@@ -102,7 +102,7 @@ const Widget = ({ config, error }: Props) => {
             <>
               <Header expanded={expanded} setExpanded={setExpanded} />
               <div className="flex flex-grow overflow-y-auto">
-                <ChatWrapper />
+                <ChatWrapper config={config} />
               </div>
             </>
           )}
